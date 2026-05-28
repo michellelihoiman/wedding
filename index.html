@@ -166,7 +166,7 @@
         
         /* 雙語標題樣式 */
         .title-container {
-            margin-bottom: 40px;
+            margin-bottom: 30px;
         }
         .section-title {
             font-size: 2.2rem;
@@ -182,7 +182,28 @@
             margin-top: 5px;
         }
 
-        /* 倒數計時器 (獨立白色微光卡片) */
+        /* 新增婚禮日期專屬樣式 */
+        .wedding-date-banner {
+            font-size: 1.25rem;
+            color: var(--text-dark);
+            font-weight: 600;
+            letter-spacing: 1px;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px dashed rgba(214, 163, 115, 0.4);
+            line-height: 1.6;
+        }
+        .wedding-date-banner span.en-date {
+            display: block;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.15rem;
+            font-weight: 400;
+            color: var(--primary);
+            letter-spacing: 2px;
+            margin-top: 2px;
+        }
+
+        /* 倒數計時器 */
         .countdown-container {
             display: flex;
             justify-content: center;
@@ -249,8 +270,8 @@
 
         /* 婚禮詳情排版 */
         .event-block {
-            margin: 40px 0;
-            padding-bottom: 40px;
+            margin: 35px 0;
+            padding-bottom: 35px;
             border-bottom: 1px dashed rgba(141, 163, 153, 0.3);
         }
         .event-block:last-child {
@@ -260,21 +281,15 @@
         }
         .event-time {
             font-family: 'Cormorant Garamond', serif;
-            font-size: 1.4rem;
-            color: var(--secondary);
+            font-size: 1.6rem;
+            color: var(--primary);
             font-weight: 600;
-            line-height: 1.4;
-        }
-        .event-time span.en-time {
-            font-size: 0.9rem;
-            display: block;
-            font-weight: 400;
-            margin-top: -2px;
+            line-height: 1.2;
+            margin-bottom: 8px;
         }
         .event-title {
             font-size: 1.3rem;
             font-weight: 600;
-            margin-top: 8px;
             margin-bottom: 4px;
             line-height: 1.4;
         }
@@ -287,32 +302,66 @@
         .event-place {
             font-size: 1.1rem;
             color: var(--text-dark);
-            margin-top: 10px;
-            margin-bottom: 20px;
+            margin-top: 8px;
+            margin-bottom: 18px;
             word-wrap: break-word;
             overflow-wrap: break-word;
             padding: 0 5px;
             line-height: 1.5;
         }
         
-        /* 交通指引樣式 */
-        .transport-guide {
+        /* 隱藏式摺疊交通面板核心樣式 */
+        .transport-details {
+            width: 100%;
+            text-align: left;
+            margin-top: 10px;
+        }
+        .transport-summary {
+            background: rgba(212, 163, 115, 0.08);
+            border: 1px solid rgba(212, 163, 115, 0.2);
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--primary);
+            cursor: pointer;
+            outline: none;
+            list-style: none; /* 隱藏預設箭頭 */
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            user-select: none;
+        }
+        .transport-summary::-webkit-details-marker {
+            display: none; /* 隱藏 Safari 預設箭頭 */
+        }
+        .transport-summary:hover {
+            background: rgba(212, 163, 115, 0.15);
+            transform: translateY(-1px);
+        }
+        .transport-summary::after {
+            content: ' ▾';
+            margin-left: 6px;
+            font-size: 0.8rem;
+            transition: transform 0.3s;
+        }
+        .transport-details[open] .transport-summary::after {
+            content: ' ▴';
+        }
+        .transport-content {
             background: rgba(141, 163, 153, 0.06);
             border-radius: 8px;
             padding: 18px 20px;
             font-size: 0.9rem;
             color: #5a6b63;
-            text-align: left;
-            display: inline-block;
-            width: 100%;
-            box-sizing: border-box;
             line-height: 1.8;
+            margin-top: 12px;
+            animation: fadeIn 0.4s ease-out;
         }
-        .transport-main-title {
-            font-weight: 600;
-            margin-bottom: 10px;
-            border-bottom: 1px solid rgba(141, 163, 153, 0.2);
-            padding-bottom: 4px;
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         .transport-line {
             margin-bottom: 12px;
@@ -441,12 +490,14 @@
             .v-card { padding: 35px 20px; }
             .section-title { font-size: 1.8rem; }
             .section-subtitle { font-size: 1.1rem; }
+            .wedding-date-banner { font-size: 1.1rem; }
+            .wedding-date-banner span.en-date { font-size: 1rem; }
             .countdown-container { gap: 10px; }
             .time-card { min-width: 110px; padding: 10px 15px; }
             .time-num { font-size: 2rem; padding-right: 10px; }
             .time-label { padding-left: 10px; }
             .event-place { font-size: 1rem; }
-            .transport-guide { font-size: 0.85rem; padding: 15px 15px; }
+            .transport-content { font-size: 0.85rem; padding: 15px 15px; }
         }
     </style>
 </head>
@@ -455,7 +506,7 @@
     <!-- Canvas 浪漫暖色粒子背景 -->
     <canvas id="canvas-bg"></canvas>
 
-    <!-- 1. 固定式毛玻璃導航列（全新中英雙語對照） -->
+    <!-- 固定式毛玻璃導航列 -->
     <nav class="navbar">
         <a href="#about">關於我們<span class="en-nav">About Us</span></a>
         <a href="#details">婚禮詳情<span class="en-nav">Details</span></a>
@@ -484,7 +535,6 @@
                 <div class="section-subtitle">期待那一天</div>
             </div>
             
-            <!-- 2. 獨立白色微光卡片藝術計時器 -->
             <div class="countdown-container">
                 <div class="time-card">
                     <span class="time-num" id="days">00</span>
@@ -519,7 +569,6 @@
                     </div>
                 </div>
             </div>
-            <!-- 計時器下方加註中英對照 -->
             <div class="countdown-share-text">
                 跟大家分享喜悅
                 <span class="en-share">Share the joy with us</span>
@@ -527,7 +576,7 @@
         </div>
     </section>
 
-    <!-- 婚禮詳情與多元交通配置 -->
+    <!-- 婚禮詳情與全新隱藏摺疊交通配置 -->
     <section class="section" id="details">
         <div class="v-card">
             <div class="title-container">
@@ -535,57 +584,70 @@
                 <div class="section-subtitle">婚禮詳情</div>
             </div>
 
-            <!-- 證婚地點 -->
-            <div class="event-block">
-                <div class="event-time">16:30<span class="en-time">04:30 PM</span></div>
-                <div class="event-title">證婚典禮儀式<span class="en-etitle">Marriage Ceremony</span></div>
-                <div class="event-place">
-                    <span class="no-wrap">伯大尼教堂</span> <span class="no-wrap">Bethanie Chapel</span>
-                </div>
-                
-                <div class="transport-guide">
-                    <div class="transport-main-title">🚌 交通指引 / Transportation Guide</div>
-                    <div class="transport-line">
-                        ① <strong>巴士 / Bus：</strong>於中環交易廣場巴士總站乘搭 4X 或 30X 號巴士，於薄扶林水塘道站下車。
-                        <span class="en-route">Take Bus 4X or 30X from Central Exchange Square Bus Terminus, alight at Pok Fu Lam Reservoir Road Station.</span>
-                    </div>
-                    <div class="transport-line">
-                        ② <strong>港鐵轉乘 / MTR Transfer：</strong>於港鐵港島綫香港大學站 (HKU) B1 出口，轉乘前往薄扶林方向之巴士或小巴，約 10 分鐘即可抵達。
-                        <span class="en-route">From MTR HKU Station Exit B1, transfer to any Pok Fu Lam bound bus or minibus (approx. 10 mins).</span>
-                    </div>
-                    <div class="transport-line">
-                        ③ <strong>專線小巴 / Minibus：</strong>可於香港仔、銅鑼灣或旺角乘搭途經薄扶林道的相關紅色/綠色小巴，於薄扶林水塘道站下車。
-                        <span class="en-route">Take red/green minibuses via Pok Fu Lam Road from Aberdeen, Causeway Bay, or Mong Kok; alight at Pok Fu Lam Reservoir Road Station.</span>
-                    </div>
-                </div>
+            <!-- 新增中英雙語婚禮日期橫幅 -->
+            <div class="wedding-date-banner">
+                📅 2026年11月28日 (星期六)
+                <span class="en-date">Saturday, November 28, 2026</span>
             </div>
 
-            <!-- 晚宴地點（入席與晚宴時間分行獨立顯示） -->
+            <!-- 證婚地點 (統一單一時間格式) -->
             <div class="event-block">
-                <div class="event-time">19:00 入席<span class="en-time">07:00 PM Reception</span></div>
-                <div class="event-time" style="margin-top: 5px;">19:30 晚宴<span class="en-time">07:30 PM Banquet</span></div>
-                <div class="event-title" style="margin-top: 15px;">入席及晚宴<span class="en-etitle">Wedding Reception & Banquet</span></div>
+                <div class="event-time">4:30pm</div>
+                <div class="event-title">證婚典禮儀式<span class="en-etitle">Marriage Ceremony</span></div>
+                <div class="event-place">
+                    <span class="no-wrap">薄扶林伯大尼教堂</span><br>
+                    <span style="font-size: 0.95rem; color: #666;" class="en">Bethanie Chapel, Pok Fu Lam</span>
+                </div>
+                
+                <!-- 隱藏式摺疊面板 -->
+                <details class="transport-details">
+                    <summary class="transport-summary">🗺️ 查看交通指引 / View Route</summary>
+                    <div class="transport-content">
+                        <div class="transport-line">
+                            ① <strong>巴士 / Bus：</strong>於中環交易廣場巴士總站乘搭 4X 或 30X 號巴士，於薄扶林水塘道站下車。
+                            <span class="en-route">Take Bus 4X or 30X from Central Exchange Square Bus Terminus, alight at Pok Fu Lam Reservoir Road Station.</span>
+                        </div>
+                        <div class="transport-line">
+                            ② <strong>港鐵轉乘 / MTR Transfer：</strong>於港鐵港島綫香港大學站 (HKU) B1 出口，轉乘前往薄扶林方向之巴士或小巴，約 10 分鐘即可抵達。
+                            <span class="en-route">From MTR HKU Station Exit B1, transfer to any Pok Fu Lam bound bus or minibus (approx. 10 mins).</span>
+                        </div>
+                        <div class="transport-line">
+                            ③ <strong>專線小巴 / Minibus：</strong>可於香港仔、銅鑼灣或旺角乘搭途經薄扶林道的相關紅色/綠色小巴，於薄扶林水塘道站下車。
+                            <span class="en-route">Take red/green minibuses via Pok Fu Lam Road from Aberdeen, Causeway Bay, or Mong Kok; alight at Pok Fu Lam Reservoir Road Station.</span>
+                        </div>
+                    </div>
+                </details>
+            </div>
+
+            <!-- 晚宴地點 (入席/晚宴無重複單一顯示) -->
+            <div class="event-block">
+                <div class="event-time">7:00pm <span style="font-size:1.1rem; font-weight:400; color:var(--text-dark);">入席 Reception</span></div>
+                <div class="event-time" style="margin-top: 5px;">7:30pm <span style="font-size:1.1rem; font-weight:400; color:var(--text-dark);">晚宴 Banquet</span></div>
+                <div class="event-title" style="margin-top: 15px;">婚宴盛典<span class="en-etitle">Wedding Banquet</span></div>
                 <div class="event-place">
                     <span class="no-wrap">香港數碼港艾美酒店</span><br>
                     <span style="font-size: 0.95rem; color: #666;" class="en">Le Meridien Hotel, Cyberport</span>
                 </div>
                 
-                <div class="transport-guide">
-                    <div class="transport-main-title">🚌 交通指引 / Transportation Guide</div>
-                    <div class="transport-line">
-                        ① <strong>大會接駁車 / Shuttle Bus：</strong>大會將於指定時間提供往返港鐵金鐘站的專屬接駁巴士，歡迎於下方登記。
-                        <span class="en-route">Complimentary shuttle service to/from MTR Admiralty Station will be provided. Please register in the RSVP section below.</span>
+                <!-- 隱藏式摺疊面板 -->
+                <details class="transport-details">
+                    <summary class="transport-summary">🗺️ 查看交通指引 / View Route</summary>
+                    <div class="transport-content">
+                        <div class="transport-line">
+                            ① <strong>大會接駁車 / Shuttle Bus：</strong>大會將於指定時間提供往返港鐵金鐘站的專屬接駁巴士，歡迎於下方登記。
+                            <span class="en-route">Complimentary shuttle service to/from MTR Admiralty Station will be provided. Please register in the RSVP section below.</span>
+                        </div>
+                        <div class="transport-line">
+                            ② <strong>港鐵轉乘 / MTR Transfer：</strong>於港鐵港島綫堅尼地城站 (Kennedy Town) A 出口，轉乘 58 號綠色專線小巴，即可直達數碼港商場/艾美酒店。
+                            <span class="en-route">From MTR Kennedy Town Station Exit A, take Green Minibus 58 directly to Cyberport / Le Meridien.</span>
+                        </div>
                     </div>
-                    <div class="transport-line">
-                        ② <strong>港鐵轉乘 / MTR Transfer：</strong>於港鐵港島綫堅尼地城站 (Kennedy Town) A 出口，轉乘 58 號綠色專線小巴，即可直達數碼港商場/艾美酒店。
-                        <span class="en-route">From MTR Kennedy Town Station Exit A, take Green Minibus 58 directly to Cyberport / Le Meridien.</span>
-                    </div>
-                </div>
+                </details>
             </div>
         </div>
     </section>
 
-    <!-- 8. 智能表單回函區塊（已撤除人數題目，全部欄位標籤雙語化） -->
+    <!-- 智能表單回函區塊 (下拉選單內容已同步完全雙語化) -->
     <section class="section" id="rsvp">
         <div class="v-card">
             <div class="title-container">
@@ -593,10 +655,8 @@
                 <div class="section-subtitle">出席回函</div>
             </div>
 
-            <!-- 5. 隱藏式 Iframe 提交技術 -->
             <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(submitted) {window.location='#thanks'; alert(language === 'en' ? 'Thank you for your response! See you at our wedding.' : '謝謝您的回覆！我們婚禮見。');}"></iframe>
             
-            <!-- 表單配置：輸入框與下拉選單真空留空，不准有任何預填文字 -->
             <form action="https://docs.google.com/forms/d/e/1FAIpQLSd6jlYYE3XGlN53iMmjB1T2kOeO6wzTI_Gpc56e_eDPRcZCkQ/formResponse" method="post" target="hidden_iframe" onsubmit="submitted=true;">
                 
                 <!-- 姓名 -->
@@ -611,51 +671,50 @@
                     <input type="email" name="entry.134417591" class="form-control" required placeholder="">
                 </div>
 
-                <!-- 身份（下拉選單維持純中文） -->
+                <!-- 身份 (選項雙語修正) -->
                 <div class="form-group">
                     <label class="form-label">您是哪一方的親友<span class="en-label">Relationship</span></label>
                     <select name="entry.163538105" class="form-control" required>
                         <option value="" disabled selected hidden></option>
-                        <option value="Michelle女家親戚">Michelle女家親戚</option>
-                        <option value="Michelle女家朋友">Michelle女家朋友</option>
-                        <option value="Hendrick男家親戚">Hendrick男家親戚</option>
-                        <option value="Hendrick男家朋友">Hendrick男家朋友</option>
+                        <option value="Michelle女家親戚">Michelle 女家親戚 / Michelle's Relative</option>
+                        <option value="Michelle女家朋友">Michelle 女家朋友 / Michelle's Friend</option>
+                        <option value="Hendrick男家親戚">Hendrick 男家親戚 / Hendrick's Relative</option>
+                        <option value="Hendrick男家朋友">Hendrick 男家朋友 / Hendrick's Friend</option>
                     </select>
                 </div>
 
-                <!-- 出席意願（下拉選單維持純中文） -->
+                <!-- 出席意願 (選項雙語修正) -->
                 <div class="form-group">
                     <label class="form-label">能否出席<span class="en-label">Attendance</span></label>
                     <select name="entry.1976289255" class="form-control" required>
                         <option value="" disabled selected hidden></option>
-                        <option value="會">會</option>
-                        <option value="未能出席">未能出席</option>
+                        <option value="會">會出席 / Will Attend</option>
+                        <option value="未能出席">遺憾未能出席 / Sincerely Decline</option>
                     </select>
                 </div>
 
-                <!-- 餐點選擇（下拉選單維持純中文） -->
+                <!-- 餐點選擇 (選項雙語修正) -->
                 <div class="form-group">
                     <label class="form-label">餐點選擇<span class="en-label">Meal Choice</span></label>
                     <select name="entry.MEAL_SELECT_ID_HERE" class="form-control" required>
                         <option value="" disabled selected hidden></option>
-                        <option value="中式套餐A">中式套餐A</option>
-                        <option value="中式套餐B">中式套餐B</option>
-                        <option value="精選素食餐">精選素食餐</option>
-                        <option value="兒童餐">兒童餐</option>
+                        <option value="中式套餐A">中式套餐 A / Chinese Set A</option>
+                        <option value="中式套餐B">中式套餐 B / Chinese Set B</option>
+                        <option value="精選素食餐">精選素食餐 / Vegetarian Menu</option>
+                        <option value="兒童餐">兒童餐 / Child Menu</option>
                     </select>
                 </div>
 
-                <!-- 交通需求（下拉選單維持純中文） -->
+                <!-- 交通需求 (選項雙語修正) -->
                 <div class="form-group">
                     <label class="form-label">接駁巴士需求<span class="en-label">Shuttle Bus Service</span></label>
                     <select name="entry.1169012195" class="form-control" required>
                         <option value="" disabled selected hidden></option>
-                        <option value="shuttle bus at 金鐘MTR站">需要（於金鐘MTR站乘搭）</option>
-                        <option value="不需要">不需要</option>
+                        <option value="shuttle bus at 金鐘MTR站">需要（於金鐘站乘搭）/ Yes (From Admiralty MTR)</option>
+                        <option value="不需要">不需要 / No, Thank You</option>
                     </select>
                 </div>
 
-                <!-- 提交按鈕雙語對照 -->
                 <button type="submit" class="btn-submit">
                     確認送出
                     <span class="en-btn">Submit Response</span>
@@ -671,7 +730,6 @@
 
     <script>
         let submitted = false;
-        // 偵測瀏覽器語系以便彈出合適的雙語提示
         const language = navigator.language || navigator.userLanguage;
 
         // --- Canvas 浪漫暖色粒子特效 ---
@@ -734,7 +792,6 @@
         animate();
 
         // --- 倒數計時核心邏輯 ---
-        // 精準倒數至 2026年11月28日 下午 4:30 證婚典禮儀式開始
         const targetDate = new Date('November 28, 2026 16:30:00').getTime();
 
         function updateCountdown() {
