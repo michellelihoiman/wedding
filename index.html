@@ -1,1076 +1,543 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="zh-Hant-HK">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Michelle & Hendrick | Wedding Invitation</title>
+    <title>Michelle & Hendrick Wedding Invitation</title>
     
-    <!-- 匯入高質感字體 -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Noto+Serif+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Noto+Serif+TC:wght@400;600&display=swap" rel="stylesheet">
+
     <style>
-        /* ==========================================================================
-           1. 變數與基礎設定 (Aesthetics & Reset)
-           ========================================================================== */
         :root {
-            --primary: #d4a373;        /* Morandi 暖陽金 */
-            --secondary: #8da399;      /* Morandi 柔灰綠 */
-            --bg-cream: #faf7f2;       /* 優雅燕麥奶白 */
-            --text-dark: #3d3d3d;      /* 質感暖黑 */
-            --text-muted: #7c8b82;     /* 輕柔灰褐 */
+            --primary: #d4a373;      /* Morandi 暖陽金 */
+            --secondary: #8da399;    /* Morandi 霧綠 */
+            --bg-light: #fbfbf9;     /* 柔和米白 */
+            --text-dark: #4a4a4a;    /* 深灰質感字 */
             --white-glow: rgba(255, 255, 255, 0.85);
-            --shadow-soft: 0 10px 30px rgba(141, 163, 153, 0.15);
-            --shadow-card: 0 15px 40px rgba(212, 163, 115, 0.12);
+            --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.05);
+            --radius-md: 16px;
         }
 
+        /* 基礎重設與字體定義 */
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
         }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
         body {
             font-family: 'Noto Serif TC', serif;
-            background-color: var(--bg-cream);
+            background-color: var(--bg-light);
             color: var(--text-dark);
             line-height: 1.8;
             overflow-x: hidden;
         }
-
-        /* 英文專用襯線體 */
-        .font-en {
+        h1, h2, h3, .en {
             font-family: 'Cormorant Garamond', serif;
+            letter-spacing: 0.05em;
         }
 
-        /* 手機版防斷行排版優化 (6. Mobile Optimization) */
+        /* 手機端防跑版核心類別 */
         .no-wrap {
-            white-space: nowrap;
-            display: inline-block;
+            white-space: nowrap !important;
+            word-break: keep-all !important;
         }
 
-        /* ==========================================================================
-           2. 導航列 (1. Navigation Glassmorphism)
-           ========================================================================== */
+        /* Canvas 背景固定 */
+        #canvas-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* 1. 毛玻璃導航列 */
         .navbar {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             z-index: 1000;
-            background: rgba(250, 247, 242, 0.7);
+            background: rgba(255, 255, 255, 0.65);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.4);
-            box-shadow: 0 2px 30px rgba(141, 163, 153, 0.05);
-            transition: all 0.4s ease;
-        }
-
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 15px 25px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .nav-logo {
-            font-size: 1.3rem;
-            font-weight: 400;
-            letter-spacing: 2px;
-            color: var(--primary);
-            text-decoration: none;
-        }
-
-        .nav-links {
-            display: flex;
-            list-style: none;
-            gap: 30px;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            color: var(--text-dark);
-            font-size: 0.9rem;
-            letter-spacing: 2px;
-            transition: color 0.3s ease;
-            font-weight: 400;
-            position: relative;
-        }
-
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 50%;
-            width: 0;
-            height: 1px;
-            background-color: var(--primary);
-            transition: all 0.3s ease;
-            transform: translateX(-50%);
-        }
-
-        .nav-links a:hover {
-            color: var(--primary);
-        }
-
-        .nav-links a:hover::after {
-            width: 100%;
-        }
-
-        /* ==========================================================================
-           3. 首頁封面背景 (3. Fullscreen Hero Background & Canvas)
-           ========================================================================== */
-        .hero {
-            position: relative;
-            height: 100vh;
-            width: 100%;
-            display: flex;
-            align-items: center;
             justify-content: center;
-            text-align: center;
-            overflow: hidden;
+            align-items: center;
+            padding: 15px 0;
+        }
+        .navbar a {
+            color: var(--text-dark);
+            text-decoration: none;
+            margin: 0 20px;
+            font-size: 0.95rem;
+            letter-spacing: 1px;
+            transition: color 0.3s;
+            font-weight: 600;
+        }
+        .navbar a:hover {
+            color: var(--primary);
         }
 
-        .hero-bg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.35)), url('https://i.postimg.cc/BnYZCRLg/cd227ae9-2169-4140-bb61-fad3aefecd22.jpg');
-            background-size: cover;
-            background-position: center;
-            z-index: 0;
-        }
-
-        /* 動態星塵 Canvas */
-        #particleCanvas {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
-            pointer-events: none;
-        }
-
-        .hero-content {
+        /* 3. 全螢幕封面 */
+        .hero {
+            height: 100vh;
             position: relative;
-            z-index: 2;
-            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
             padding: 20px;
         }
-
-        .hero-names {
-            font-size: 4rem;
-            font-weight: 300;
-            letter-spacing: 6px;
-            margin-bottom: 15px;
-            text-shadow: 0 2px 15px rgba(0,0,0,0.25);
-            animation: fadeInDown 1.5s ease-out;
-        }
-
-        .hero-subtitle {
-            font-size: 1.15rem;
-            letter-spacing: 8px;
-            margin-bottom: 30px;
-            font-weight: 300;
-            opacity: 0.95;
-            text-shadow: 0 1px 10px rgba(0,0,0,0.2);
-            animation: fadeInUp 1.5s ease-out 0.3s both;
-        }
-
-        .hero-slogan {
-            font-size: 2rem;
-            font-style: italic;
-            letter-spacing: 3px;
-            color: #f7e1cd;
-            text-shadow: 0 1px 8px rgba(0,0,0,0.15);
-            animation: fadeInUp 1.5s ease-out 0.6s both;
-        }
-
-        /* Scroll Down Indicator */
-        .scroll-down {
+        .hero-bg {
             position: absolute;
-            bottom: 40px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 2;
-            color: #ffffff;
-            animation: bounce 2s infinite;
-            text-decoration: none;
-            font-size: 0.85rem;
-            letter-spacing: 3px;
-            opacity: 0.8;
+            top:0; left:0; width:100%; height:100%;
+            background: url('https://i.postimg.cc/BnYZCRLg/cd227ae9-2169-4140-bb61-fad3aefecd22.jpg') center/cover no-repeat;
+            z-index: -2;
         }
-
-        /* ==========================================================================
-           4. 共用區塊與計時器 (Section & 2. Countdown Timer)
-           ========================================================================== */
-        .section {
-            padding: 120px 20px;
-            max-width: 900px;
-            margin: 0 auto;
-            text-align: center;
+        .hero-overlay {
+            position: absolute;
+            top:0; left:0; width:100%; height:100%;
+            background: rgba(0,0,0,0.15);
+            z-index: -2;
         }
-
-        .section-title {
-            font-size: 2rem;
-            color: var(--primary);
-            letter-spacing: 5px;
-            margin-bottom: 20px;
+        .hero h1 {
+            font-size: 3.5rem;
             font-weight: 400;
+            margin-bottom: 10px;
+        }
+        .hero p.tagline {
+            font-size: 1.2rem;
+            margin-bottom: 25px;
+            letter-spacing: 2px;
+        }
+        .hero .quote {
+            font-size: 0.95rem;
+            opacity: 0.9;
+            font-style: italic;
         }
 
+        /* 通用區塊與 V-Card 設計 */
+        .section {
+            padding: 100px 20px 60px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .v-card {
+            background: var(--white-glow);
+            backdrop-filter: blur(8px);
+            border-radius: var(--radius-md);
+            padding: 50px 40px;
+            box-shadow: var(--shadow-soft);
+            border: 1px solid rgba(255,255,255,0.6);
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .section-title {
+            font-size: 2.2rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
         .section-subtitle {
-            font-size: 0.9rem;
-            color: var(--text-muted);
-            letter-spacing: 3px;
-            margin-bottom: 60px;
+            font-size: 0.85rem;
+            letter-spacing: 2px;
+            color: var(--secondary);
             text-transform: uppercase;
+            margin-bottom: 40px;
         }
 
+        /* 2. 藝術感計時器視覺 */
         .countdown-container {
             display: flex;
             justify-content: center;
-            gap: 25px;
+            gap: 20px;
             margin-top: 30px;
             flex-wrap: wrap;
         }
-
-        /* 白色微光卡片與垂直細線 */
-        .countdown-card {
-            background: var(--white-glow);
-            backdrop-filter: blur(8px);
-            padding: 25px 30px;
-            border-radius: 20px;
+        .time-card {
+            background: rgba(255, 255, 255, 0.9);
             box-shadow: var(--shadow-soft);
-            border: 1px solid rgba(255, 255, 255, 0.7);
+            border-radius: 12px;
+            padding: 15px 25px;
             display: flex;
             align-items: center;
-            min-width: 155px;
+            border: 1px solid rgba(255, 255, 255, 0.7);
+            min-width: 130px;
             justify-content: center;
-            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
         }
-
-        .countdown-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 15px 35px rgba(141, 163, 153, 0.25);
-            border-color: rgba(212, 163, 115, 0.3);
-        }
-
-        .time-number {
-            font-size: 3.4rem;
-            font-weight: 300;
+        .time-num {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.5rem;
+            font-weight: 600;
             color: var(--primary);
-            line-height: 1;
+            padding-right: 15px;
         }
-
-        .vertical-divider {
+        .time-divider {
             width: 1px;
-            height: 40px;
-            background-color: rgba(141, 163, 153, 0.25);
-            margin: 0 20px;
+            height: 35px;
+            background-color: #e0e0e0;
         }
-
         .time-label {
+            padding-left: 15px;
             display: flex;
             flex-direction: column;
             align-items: flex-start;
-            text-align: left;
         }
-
-        .label-zh {
-            font-size: 0.9rem;
-            color: var(--text-dark);
-            font-weight: 500;
-            letter-spacing: 1px;
-        }
-
-        .label-en {
+        .time-label .zh {
             font-size: 0.75rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-top: 2px;
-        }
-
-        /* ==========================================================================
-           5. 婚禮詳情 (3. Vertical V-Card Design)
-           ========================================================================== */
-        .v-card {
-            background: #ffffff;
-            border-radius: 28px;
-            padding: 60px 50px;
-            box-shadow: var(--shadow-card);
-            border: 1px solid rgba(212, 163, 115, 0.12);
-            margin: 0 auto;
-            max-width: 680px;
-            text-align: left;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .v-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 6px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-        }
-
-        .v-card-title {
-            text-align: center;
-            font-size: 1.5rem;
-            color: var(--primary);
-            letter-spacing: 3px;
-            margin-bottom: 40px;
-            font-weight: 500;
-        }
-
-        .v-card-row {
-            padding: 30px 0;
-            border-bottom: 1px dashed rgba(141, 163, 153, 0.25);
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .v-card-row:first-of-type {
-            padding-top: 10px;
-        }
-
-        .v-card-row:last-of-type {
-            border-bottom: none;
-            padding-bottom: 10px;
-        }
-
-        .v-card-meta {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .v-card-label-en {
-            font-size: 1rem;
-            color: var(--secondary);
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            font-weight: 400;
-        }
-
-        .v-card-label-zh {
-            font-size: 0.9rem;
-            color: var(--text-muted);
-            letter-spacing: 1px;
-            border-left: 1px solid rgba(141, 163, 153, 0.4);
-            padding-left: 12px;
-        }
-
-        .v-card-value {
-            font-size: 1.25rem;
-            letter-spacing: 1.5px;
             color: var(--text-dark);
-            font-weight: 500;
-            padding-left: 2px;
+            font-weight: bold;
+        }
+        .time-label .en-sub {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 0.85rem;
+            color: var(--secondary);
+            text-transform: uppercase;
         }
 
-        .v-card-subvalue {
-            font-size: 0.95rem;
-            color: var(--text-muted);
-            padding-left: 2px;
-            line-height: 1.6;
+        /* 婚禮詳情樣式 */
+        .event-block {
+            margin: 40px 0;
+            padding-bottom: 30px;
+            border-bottom: 1px dashed rgba(141, 163, 153, 0.3);
+        }
+        .event-block:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        .event-time {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.4rem;
+            color: var(--secondary);
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        .event-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        .event-place {
+            font-size: 1rem;
+            color: var(--text-dark);
         }
 
-        /* ==========================================================================
-           6. 交通指引 (7. Accordion)
-           ========================================================================== */
-        .transport-section {
-            margin-top: 50px;
-        }
-
-        .accordion {
-            max-width: 680px;
-            margin: 0 auto;
+        /* 7. 摺疊面板 (Accordion) */
+        .accordion-item {
+            border: 1px solid rgba(141, 163, 153, 0.2);
+            border-radius: 8px;
+            margin-bottom: 15px;
+            background: rgba(255,255,255,0.5);
+            overflow: hidden;
             text-align: left;
         }
-
-        .accordion-item {
-            background: #ffffff;
-            border-radius: 18px;
-            margin-bottom: 15px;
-            box-shadow: var(--shadow-soft);
-            border: 1px solid rgba(141, 163, 153, 0.1);
-            overflow: hidden;
-            transition: all 0.3s ease;
-        }
-
-        .accordion-item:hover {
-            border-color: rgba(212, 163, 115, 0.2);
-        }
-
         .accordion-header {
-            padding: 22px 28px;
-            width: 100%;
+            padding: 18px 25px;
             background: none;
+            width: 100%;
             border: none;
             text-align: left;
-            font-family: 'Noto Serif TC', serif;
-            font-size: 1.05rem;
+            font-size: 1rem;
+            font-weight: 600;
             color: var(--text-dark);
+            cursor: pointer;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            cursor: pointer;
-            transition: background 0.3s ease;
+            transition: background 0.3s;
         }
-
         .accordion-header:hover {
-            background-color: rgba(212, 163, 115, 0.02);
+            background: rgba(141, 163, 153, 0.05);
         }
-
-        .accordion-title-en {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            margin-left: 10px;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
-
-        .accordion-icon {
+        .accordion-header::after {
+            content: '+';
             font-family: 'Cormorant Garamond', serif;
             font-size: 1.5rem;
-            font-weight: 300;
-            color: var(--primary);
-            transition: transform 0.3s ease;
-            line-height: 1;
+            color: var(--secondary);
+            transition: transform 0.3s;
         }
-
+        .accordion-item.active .accordion-header::after {
+            content: '−';
+        }
         .accordion-content {
             max-height: 0;
             overflow: hidden;
-            transition: max-height 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-            background: #fafaf9;
+            transition: max-height 0.4s ease-out;
+            background: rgba(255,255,255,0.8);
         }
-
         .accordion-body {
-            padding: 25px 28px;
+            padding: 20px 25px;
             font-size: 0.95rem;
-            color: #555555;
-            line-height: 1.8;
+            line-height: 1.7;
             border-top: 1px solid rgba(141, 163, 153, 0.1);
         }
 
-        .accordion-body strong {
-            color: var(--primary);
-            font-weight: 500;
-        }
-
-        /* ==========================================================================
-           7. 雙語智能表單 (4. Bilingual Form & 8. Smart Logic)
-           ========================================================================== */
-        .form-container {
-            background: #ffffff;
-            padding: 60px 50px;
-            border-radius: 28px;
-            box-shadow: var(--shadow-card);
-            border: 1px solid rgba(212, 163, 115, 0.12);
-            max-width: 680px;
-            margin: 0 auto;
-            text-align: left;
-            position: relative;
-        }
-
+        /* 4. 智能中英表單元件 */
         .form-group {
-            margin-bottom: 30px;
+            text-align: left;
+            margin-bottom: 25px;
         }
-
-        /* 雙語標籤設計 */
         .form-label {
             display: block;
-            margin-bottom: 10px;
-            font-size: 0.95rem;
-            letter-spacing: 1px;
-            color: var(--text-dark);
-            font-weight: 500;
-        }
-
-        .form-label span {
-            font-family: 'Cormorant Garamond', serif;
+            margin-bottom: 8px;
             font-size: 0.85rem;
-            color: var(--secondary);
-            margin-left: 8px;
-            text-transform: uppercase;
-            font-weight: 400;
+            font-weight: 600;
+            letter-spacing: 1px;
         }
-
+        .form-label span.en-label {
+            font-family: 'Cormorant Garamond', serif;
+            color: var(--secondary);
+            margin-left: 5px;
+            font-size: 0.95rem;
+        }
         .form-control {
             width: 100%;
-            padding: 14px 18px;
-            border: 1px solid rgba(141, 163, 153, 0.3);
-            border-radius: 10px;
+            padding: 12px 15px;
+            border: 1px solid rgba(141, 163, 153, 0.4);
+            border-radius: 8px;
+            background: rgba(255,255,255,0.9);
             font-family: 'Noto Serif TC', serif;
             font-size: 0.95rem;
             color: var(--text-dark);
-            background-color: #fafaf9;
-            transition: all 0.3s ease;
+            transition: border-color 0.3s;
         }
-
         .form-control:focus {
             outline: none;
             border-color: var(--primary);
-            background-color: #ffffff;
-            box-shadow: 0 0 0 3px rgba(212, 163, 115, 0.12);
         }
-
-        /* 下拉選單純中文內容 (4. Dropdowns in Pure Chinese) */
         select.form-control {
             appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238da399' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'><path d='M0 3l5 5 5-5z' fill='%238da399'/></svg>");
             background-repeat: no-repeat;
-            background-position: right 20px center;
-            background-size: 16px;
-            padding-right: 45px;
-            cursor: pointer;
+            background-position: right 15px center;
+            background-size: 12px;
         }
-
-        /* 出席單選按鈕組 */
-        .radio-tile-group {
-            display: flex;
-            gap: 20px;
-            margin-top: 5px;
-        }
-
-        .radio-tile-label {
-            flex: 1;
-            position: relative;
-            cursor: pointer;
-        }
-
-        .radio-tile-label input {
-            position: absolute;
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-
-        .radio-tile-custom {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 15px;
-            border: 1px solid rgba(141, 163, 153, 0.25);
-            border-radius: 10px;
-            background-color: #fafaf9;
-            transition: all 0.3s ease;
-        }
-
-        .radio-tile-title-zh {
-            font-size: 0.95rem;
-            color: var(--text-dark);
-        }
-
-        .radio-tile-title-en {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            margin-top: 2px;
-        }
-
-        .radio-tile-label input:checked + .radio-tile-custom {
-            border-color: var(--primary);
-            background-color: rgba(212, 163, 115, 0.05);
-            box-shadow: 0 4px 15px rgba(212, 163, 115, 0.08);
-        }
-
-        .radio-tile-label input:checked + .radio-tile-custom .radio-tile-title-zh {
-            color: var(--primary);
-            font-weight: 500;
-        }
-
-        /* 8. 智能表單邏輯 (出席才展開的附屬欄位組) */
-        .conditional-fields {
-            max-height: 0;
-            overflow: hidden;
-            transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        .conditional-fields.is-visible {
-            max-height: 500px; /* 足夠放下人數與飲食的容器高度 */
-            opacity: 1;
-            pointer-events: auto;
-            margin-top: 30px;
-            border-top: 1px dashed rgba(141, 163, 153, 0.2);
-            padding-top: 30px;
-        }
-
-        /* 送出按鈕 */
         .btn-submit {
-            width: 100%;
-            padding: 16px;
-            background-color: var(--primary);
+            background: var(--primary);
+            color: white;
             border: none;
-            border-radius: 10px;
-            color: #ffffff;
-            font-family: 'Noto Serif TC', serif;
-            font-size: 1.05rem;
-            letter-spacing: 3px;
+            padding: 14px 40px;
+            font-size: 1rem;
+            border-radius: 30px;
             cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 6px 20px rgba(212, 163, 115, 0.25);
-            margin-top: 15px;
-            font-weight: 500;
-        }
-
-        .btn-submit:hover {
-            background-color: #c59364;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(212, 163, 115, 0.35);
-        }
-
-        /* 成功送出提示 */
-        .success-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
+            font-family: 'Noto Serif TC', serif;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(212, 163, 115, 0.3);
+            transition: all 0.3s;
+            margin-top: 10px;
             width: 100%;
-            height: 100%;
-            background: #ffffff;
-            border-radius: 28px;
+        }
+        .btn-submit:hover {
+            background: #c59262;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(212, 163, 115, 0.4);
+        }
+
+        /* 尾頁封底 */
+        .footer-banner {
+            height: 60vh;
+            background: url('https://i.postimg.cc/LhKZFn2D/Blue-White-Simple-Invitation.png') center/cover no-repeat;
+            position: relative;
             display: flex;
-            flex-direction: column;
-            align-items: center;
             justify-content: center;
-            text-align: center;
-            padding: 40px;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.5s ease;
-            z-index: 10;
+            align-items: center;
         }
-
-        .success-overlay.is-active {
-            opacity: 1;
-            pointer-events: auto;
+        .footer-banner::before {
+            content: '';
+            position: absolute;
+            top:0; left:0; width:100%; height:100%;
+            background: rgba(0,0,0,0.05);
         }
-
-        .success-icon {
-            font-size: 3.5rem;
-            color: var(--secondary);
-            margin-bottom: 20px;
-            animation: scaleIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        .success-title {
-            font-size: 1.4rem;
-            color: var(--primary);
-            margin-bottom: 10px;
-            font-weight: 500;
-        }
-
-        .success-text {
-            font-size: 0.95rem;
-            color: var(--text-dark);
-            line-height: 1.6;
-        }
-
-        /* ==========================================================================
-           8. 頁尾與動畫 (Footer & Keyframes)
-           ========================================================================== */
-        footer {
-            padding: 60px 20px;
-            text-align: center;
-            background-color: #f1ede6;
+        .footer-logo {
+            position: relative;
+            z-index: 1;
+            color: white;
             font-family: 'Cormorant Garamond', serif;
-            font-size: 0.95rem;
-            color: var(--text-muted);
-            letter-spacing: 2px;
-            border-top: 1px solid rgba(141, 163, 153, 0.15);
+            font-size: 2.5rem;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.2);
         }
 
-        /* Animations */
-        @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% {
-                transform: translate(-50%, 0);
-            }
-            40% {
-                transform: translate(-50%, -10px);
-            }
-            60% {
-                transform: translate(-50%, -5px);
-            }
-        }
-
-        @keyframes scaleIn {
-            from {
-                transform: scale(0);
-            }
-            to {
-                transform: scale(1);
-            }
-        }
-
-        /* ==========================================================================
-           9. 響應式排版優化 (6. Mobile Optimization & Responsive)
-           ========================================================================== */
+        /* 響應式優化：平板與手機 */
         @media (max-width: 768px) {
-            .navbar {
-                background: rgba(250, 247, 242, 0.85);
-            }
-            .nav-logo {
-                font-size: 1.15rem;
-            }
-            .nav-links {
-                gap: 15px;
-            }
-            .nav-links a {
-                font-size: 0.8rem;
-                letter-spacing: 1px;
-            }
-            .hero-names {
-                font-size: 2.8rem;
-            }
-            .hero-subtitle {
-                font-size: 0.95rem;
-                letter-spacing: 4px;
-                margin-bottom: 20px;
-            }
-            .hero-slogan {
-                font-size: 1.45rem;
-            }
-            .section {
-                padding: 80px 15px;
-            }
-            .section-title {
-                font-size: 1.6rem;
-            }
-            .section-subtitle {
-                margin-bottom: 40px;
-            }
-            .countdown-container {
-                gap: 15px;
-            }
-            .countdown-card {
-                padding: 18px 20px;
-                min-width: 130px;
-            }
-            .time-number {
-                font-size: 2.4rem;
-            }
-            .vertical-divider {
-                height: 30px;
-                margin: 0 12px;
-            }
-            .time-label {
-                align-items: center;
-                text-align: center;
-            }
-            .label-zh {
-                font-size: 0.8rem;
-            }
-            .label-en {
-                font-size: 0.65rem;
-            }
-            .v-card, .form-container {
-                padding: 40px 20px;
-                border-radius: 20px;
-            }
-            .v-card-title {
-                font-size: 1.3rem;
-                margin-bottom: 25px;
-            }
-            .v-card-value {
-                font-size: 1.1rem;
-            }
-            .v-card-subvalue {
-                font-size: 0.85rem;
-            }
-            .accordion-header {
-                padding: 18px 20px;
-                font-size: 0.95rem;
-            }
-            .accordion-body {
-                padding: 20px;
-                font-size: 0.85rem;
-            }
+            .navbar a { margin: 0 12px; font-size: 0.85rem; }
+            .hero h1 { font-size: 2.6rem; }
+            .hero p.tagline { font-size: 1rem; }
+            .v-card { padding: 35px 20px; }
+            .countdown-container { gap: 12px; }
+            .time-card { min-width: 110px; padding: 10px 15px; }
+            .time-num { font-size: 2rem; padding-right: 10px; }
+            .time-label { padding-left: 10px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- ==========================================================================
-       10. 導航列 HTML
-       ========================================================================== -->
+    <canvas id="canvas-bg"></canvas>
+
     <nav class="navbar">
-        <div class="nav-container">
-            <a href="#" class="nav-logo font-en">M & H</a>
-            <ul class="nav-links">
-                <li><a href="#about">關於婚禮</a></li>
-                <li><a href="#details">婚禮詳情</a></li>
-                <li><a href="#rsvp">出席回函</a></li>
-            </ul>
-        </div>
+        <a href="#about">關於我們</a>
+        <a href="#details">婚禮詳情</a>
+        <a href="#rsvp">出席回函</a>
     </nav>
 
-    <!-- ==========================================================================
-       11. 封面區塊 HTML
-       ========================================================================== -->
     <header class="hero">
         <div class="hero-bg"></div>
-        <!-- Canvas 功能：動態星塵粒子 -->
-        <canvas id="particleCanvas"></canvas>
-        <div class="hero-content">
-            <h1 class="hero-names font-en">Michelle & Hendrick</h1>
-            <p class="hero-subtitle">誠摯邀請您見證我們的幸福時刻</p>
-            <p class="hero-slogan font-en">Love matters.</p>
-        </div>
-        <a href="#about" class="scroll-down font-en">SCROLL<br>▼</a>
+        <div class="hero-overlay"></div>
+        <h1>Michelle & Hendrick</h1>
+        <p class="tagline">Love matters.</p>
+        <p class="quote">「這個世界那麼大，多幸運我有我們。」</p>
     </header>
 
-    <!-- ==========================================================================
-       12. 倒數計時區塊 HTML
-       ========================================================================== */ -->
-    <section id="about" class="section">
-        <h2 class="section-title font-en">COUNTDOWN</h2>
-        <p class="section-subtitle">期待那一天與您在典禮相聚</p>
-        
-        <!-- 計時器視覺：白色微光卡片、垂直細線 (2. Countdown Timer) -->
-        <div class="countdown-container">
-            <div class="countdown-card">
-                <span class="time-number font-en" id="days">00</span>
-                <div class="vertical-divider"></div>
-                <div class="time-label">
-                    <span class="label-zh">天</span>
-                    <span class="label-en">Days</span>
-                </div>
-            </div>
-            <div class="countdown-card">
-                <span class="time-number font-en" id="hours">00</span>
-                <div class="vertical-divider"></div>
-                <div class="time-label">
-                    <span class="label-zh">時</span>
-                    <span class="label-en">Hours</span>
-                </div>
-            </div>
-            <div class="countdown-card">
-                <span class="time-number font-en" id="minutes">00</span>
-                <div class="vertical-divider"></div>
-                <div class="time-label">
-                    <span class="label-zh">分</span>
-                    <span class="label-en">Mins</span>
-                </div>
-            </div>
-            <div class="countdown-card">
-                <span class="time-number font-en" id="seconds">00</span>
-                <div class="vertical-divider"></div>
-                <div class="time-label">
-                    <span class="label-zh">秒</span>
-                    <span class="label-en">Secs</span>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ==========================================================================
-       13. 婚禮詳情與 V-Card HTML (3. V-Card Detail)
-       ========================================================================== -->
-    <section id="details" class="section" style="background-color: rgba(212, 163, 115, 0.03);">
-        <h2 class="section-title font-en">WEDDING DETAILS</h2>
-        <p class="section-subtitle">時間與地點資訊</p>
-        
+    <section class="section" id="about">
         <div class="v-card">
-            <h3 class="v-card-title font-en">Michelle & Hendrick's Wedding</h3>
+            <h2 class="section-title">Counting Down</h2>
+            <p class="section-subtitle">期待那一天</p>
             
-            <!-- 日期 Row -->
-            <div class="v-card-row">
-                <div class="v-card-meta">
-                    <span class="v-card-label-en font-en">Date</span>
-                    <span class="v-card-label-zh">日期</span>
-                </div>
-                <div class="v-card-value">2026 年 11 月 28 日（星期六）</div>
-            </div>
-
-            <!-- 典禮儀式 Row -->
-            <div class="v-card-row">
-                <div class="v-card-meta">
-                    <span class="v-card-label-en font-en">Ceremony</span>
-                    <span class="v-card-label-zh">典禮儀式</span>
-                </div>
-                <div class="v-card-value">下午 4:30 正式開始</div>
-                <div class="v-card-subvalue">
-                    地點：<span class="no-wrap" style="color: var(--text-dark); font-weight:500;">伯大尼教堂</span> <span class="no-wrap font-en" style="color: var(--text-dark); font-weight:500;">Bethanie Chapel</span><br>
-                    地址：香港<span class="no-wrap">薄扶林道139號</span>
-                </div>
-            </div>
-
-            <!-- 晚宴 Row -->
-            <div class="v-card-row">
-                <div class="v-card-meta">
-                    <span class="v-card-label-en font-en">Banquet</span>
-                    <span class="v-card-label-zh">晚宴喜慶</span>
-                </div>
-                <div class="v-card-value">晚上 7:30 準時開席</div>
-                <div class="v-card-subvalue">
-                    地點：<span class="no-wrap" style="color: var(--text-dark); font-weight:500;">香港數碼港艾美酒店</span> <span class="no-wrap font-en" style="color: var(--text-dark); font-weight:500;">Le Meridien Hotel, Cyberport</span><br>
-                    地址：香港<span class="no-wrap">鋼綫灣數碼港道100號</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- 交通指引：摺疊式面板 (7. Accordion) -->
-        <div class="transport-section">
-            <div class="accordion">
-                <!-- 伯大尼教堂 交通 -->
-                <div class="accordion-item">
-                    <button class="accordion-header" onclick="toggleAccordion(this)">
-                        <span>伯大尼教堂交通指引<span class="accordion-title-en">Bethanie Chapel Guide</span></span>
-                        <span class="accordion-icon">+</span>
-                    </button>
-                    <div class="accordion-content">
-                        <div class="accordion-body">
-                            <strong>[ 巴士及小巴指引 ]</strong><br>
-                            搭乘途經薄扶林道之巴士路線（例如：<strong>4, 7, 30X, 37A, 40, 40M, 71, 90B, 91, 970, 970X</strong>），並於 <span class="no-wrap">「薄扶林技能訓練中心」</span> 巴士站下車，步行約 3-5 分鐘即可抵達 <span class="no-wrap">伯大尼教堂</span>。<br><br>
-                            <strong>[ 港鐵轉乘 ]</strong><br>
-                            建議於 <span class="no-wrap">「港鐵堅尼地城站」</span> 轉乘專線小巴 <span class="no-wrap">58 號</span> 或 <span class="no-wrap">58M 號</span> 直達。
-                        </div>
+            <div class="countdown-container">
+                <div class="time-card">
+                    <span class="time-num" id="days">00</span>
+                    <div class="time-divider"></div>
+                    <div class="time-label">
+                        <span class="zh">天</span>
+                        <span class="en-sub">Days</span>
                     </div>
                 </div>
-
-                <!-- 數碼港艾美酒店 交通 -->
-                <div class="accordion-item">
-                    <button class="accordion-header" onclick="toggleAccordion(this)">
-                        <span>數碼港艾美酒店交通指引<span class="accordion-title-en">Le Meridien Cyberport Guide</span></span>
-                        <span class="accordion-icon">+</span>
-                    </button>
-                    <div class="accordion-content">
-                        <div class="accordion-body">
-                            <strong>[ 巴士指引 ]</strong><br>
-                            可於中環交易廣場搭乘 <strong>30X</strong> 號巴士，直達數碼港。或搭乘巴士 <strong>73, 107P, 970</strong> 於數碼港下車。<br><br>
-                            <strong>[ 專線小巴指引 ]</strong><br>
-                            <ul>
-                                <li>於 <span class="no-wrap">「港鐵香港站」</span> / 交易廣場搭乘專線小巴 <span class="no-wrap">8 號 / 8X 號</span>。</li>
-                                <li>於 <span class="no-wrap">「港鐵堅尼地城站」</span> A出口搭乘專線小巴 <span class="no-wrap">58 號</span>。</li>
-                                <li>於 <span class="no-wrap">「港鐵鰂魚涌站」</span> / 太古城搭乘專線小巴 <span class="no-wrap">69 號</span>。</li>
-                            </ul>
-                        </div>
+                <div class="time-card">
+                    <span class="time-num" id="hours">00</span>
+                    <div class="time-divider"></div>
+                    <div class="time-label">
+                        <span class="zh">時</span>
+                        <span class="en-sub">Hrs</span>
+                    </div>
+                </div>
+                <div class="time-card">
+                    <span class="time-num" id="minutes">00</span>
+                    <div class="time-divider"></div>
+                    <div class="time-label">
+                        <span class="zh">分</span>
+                        <span class="en-sub">Mins</span>
+                    </div>
+                </div>
+                <div class="time-card">
+                    <span class="time-num" id="seconds">00</span>
+                    <div class="time-divider"></div>
+                    <div class="time-label">
+                        <span class="zh">秒</span>
+                        <span class="en-sub">Secs</span>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ==========================================================================
-       14. 出席回函區塊 HTML (4. Bilingual Form & 5. Hidden Iframe)
-       ========================================================================== -->
-    <section id="rsvp" class="section">
-        <h2 class="section-title font-en">RSVP</h2>
-        <p class="section-subtitle">出席意願回函</p>
-        
-        <div class="form-container">
-            <!-- 成功送出時顯示的遮罩層 -->
-            <div class="success-overlay" id="successOverlay">
-                <div class="success-icon">✓</div>
-                <h3 class="success-title">回函已成功送出！</h3>
-                <p class="success-text">親愛的嘉賓，我們已收到您的回覆。<br>誠摯感謝您的配合，期待在現場與您分享喜悅！</p>
+    <section class="section" id="details">
+        <div class="v-card">
+            <h2 class="section-title">Wedding Details</h2>
+            <p class="section-subtitle">婚禮詳情</p>
+
+            <div class="event-block">
+                <div class="event-time">16:30</div>
+                <div class="event-title">證婚典禮儀式</div>
+                <div class="event-place no-wrap">伯大尼教堂 Bethanie Chapel</div>
             </div>
 
-            <!-- 5. 隱藏式 Iframe 提交技術 (完全無感跳轉) -->
-            <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(submitted) { handleFormSubmitted(); }"></iframe>
+            <div class="event-block">
+                <div class="event-time">19:00 / 19:30</div>
+                <div class="event-title">入席及晚宴</div>
+                <div class="event-place no-wrap">香港數碼港艾美酒店 Le Meridien Hotel, Cyberport</div>
+            </div>
+        </div>
+
+        <div class="v-card" style="margin-top: 30px; padding-top: 40px;">
+            <h3 style="font-size: 1.4rem; margin-bottom: 25px; font-weight: 600;">交通指引 Guide</h3>
             
-            <form action="https://docs.google.com/forms/d/1HWcQ1ClidaX0b1hjKuRMP_gbskzh0Pb5ON7FYSAIaes/formResponse" method="POST" target="hidden_iframe" onsubmit="submitted=true;">
+            <div class="accordion-item">
+                <button class="accordion-header">前往 伯大尼教堂 交通</button>
+                <div class="accordion-content">
+                    <div class="accordion-body">
+                        可於中環交易廣場巴士總站乘搭 <span class="no-wrap">4X 或 30X 號巴士</span>，於薄扶林水塘道站下車。或由金鐘站乘搭的士前往，車程約 <span class="no-wrap">15-20 分鐘</span>。
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <button class="accordion-header">前往 香港數碼港艾美酒店 交通</button>
+                <div class="accordion-content">
+                    <div class="accordion-body">
+                        大會將於指定時間提供接駁巴士服務。<br>
+                        自駕賓客可直接導航至 <span class="no-wrap">香港數碼港艾美酒店</span>，現場設有時租泊車服務。
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="rsvp">
+        <div class="v-card">
+            <h2 class="section-title">RSVP</h2>
+            <p class="section-subtitle">出席回函</p>
+
+            <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(submitted) {window.location='#thanks'; alert('謝謝您的回覆！我們婚禮見。');}"></iframe>
+            
+            <form action="https://docs.google.com/forms/d/e/1FAIpQLSd6jlYYE3XGlN53iMmjB1T2kOeO6wzTI_Gpc56e_eDPRcZCkQ/formResponse" method="post" target="hidden_iframe" onsubmit="submitted=true;">
                 
-                <!-- 姓名 (雙語，輸入框空白) -->
                 <div class="form-group">
-                    <label class="form-label">姓名<span>Name</span></label>
-                    <input type="text" name="entry.1017424419" class="form-control" required placeholder="">
+                    <label class="form-label">姓名<span class="en-label">NAME</span></label>
+                    <input type="text" name="entry.395874548" class="form-control" required placeholder="請輸入您的姓名">
                 </div>
 
-                <!-- 電話 (雙語，輸入框空白) -->
                 <div class="form-group">
-                    <label class="form-label">聯絡電話<span>Phone</span></label>
-                    <input type="tel" name="entry.149257606" class="form-control" required placeholder="">
+                    <label class="form-label">電郵地址<span class="en-label">EMAIL ADDRESS</span></label>
+                    <input type="email" name="entry.134417591" class="form-control" required placeholder="example@email.com">
                 </div>
 
-                <!-- 出席意願 (雙語標籤，智慧表單觸發) -->
                 <div class="form-group">
-                    <label class="form-label">出席意願<span>Attendance</span></label>
-                    <div class="radio-tile-group">
-                        <label class="radio-tile-label">
-                            <input type="radio" name="entry.254350106" value="出席" id="attendYes" onchange="toggleSmartFields(true)">
-                            <div class="radio-tile-custom">
-                                <span class="radio-tile-title-zh">能前來祝賀</span>
-                                <span class="radio-tile-title-en font-en">Attending</span>
-                            </div>
-                        </label>
-                        <label class="radio-tile-label">
-                            <input type="radio" name="entry.254350106" value="不克出席" id="attendNo" onchange="toggleSmartFields(false)">
-                            <div class="radio-tile-custom">
-                                <span class="radio-tile-title-zh">不克前來</span>
-                                <span class="radio-tile-title-en font-en">Declining</span>
-                            </div>
-                        </label>
-                    </div>
+                    <label class="form-label">您是哪一方的親友<span class="en-label">RELATIONSHIP</span></label>
+                    <select name="entry.163538105" class="form-control" required>
+                        <option value="" disabled selected hidden>請選擇您的親友身份</option>
+                        <option value="Michelle女家親戚">Michelle女家親戚</option>
+                        <option value="Michelle女家朋友">Michelle女家朋友</option>
+                        <option value="Hendrick男家親戚">Hendrick男家親戚</option>
+                        <option value="Hendrick男家朋友">Hendrick男家朋友</option>
+                    </select>
                 </div>
 
-                <!-- 8. 智能表單邏輯組 (預設不克出席則隱藏，出席時動態展開) -->
-                <div class="conditional-fields" id="smartFields">
-                    <!-- 出席人數 (下拉選單為純中文) -->
-                    <div class="form-group">
-                        <label class="form-label">出席人數<span>Number of Guests</span></label>
-                        <select name="entry.44427493" class="form-control" id="guestsSelect">
-                            <option value="1人">1人</option>
-                            <option value="2人">2人</option>
-                            <option value="3人">3人</option>
-                            <option value="4人或以上">4人或以上</option>
-                        </select>
-                    </div>
+                <div class="form-group">
+                    <label class="form-label">能否出席<span class="en-label">ATTENDANCE</span></label>
+                    <select name="entry.1976289255" class="form-control" required>
+                        <option value="" disabled selected hidden>請選擇您的出席意願</option>
+                        <option value="會">會</option>
+                        <option value="未能出席">未能出席</option>
+                    </select>
+                </div>
 
-                    <!-- 飲食需求 (下拉選單為純中文) -->
-                    <div class="form-group">
-                        <label class="form-label">飲食需求<span>Dietary Requirements</span></label>
-                        <select name="entry.1947231456" class="form-control" id="dietSelect">
-                            <option value="正常葷食">正常葷食</option>
-                            <option value="蛋奶素">蛋奶素</option>
-                            <option value="全素">全素</option>
-                            <option value="食物過敏/其他特殊備註">食物過敏/其他特殊備註</option>
-                        </select>
-                    </div>
+                <div class="form-group">
+                    <label class="form-label">接駁巴士需求<span class="en-label">SHUTTLE BUS</span></label>
+                    <select name="entry.1169012195" class="form-control" required>
+                        <option value="" disabled selected hidden>是否需要安排接駁巴士？</option>
+                        <option value="shuttle bus at 金鐘MTR站">需要（於金鐘MTR站乘搭）</option>
+                        <option value="不需要">不需要</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">出席人數<span class="en-label">NUMBER OF GUESTS</span></label>
+                    <select name="entry.921828592" class="form-control" required>
+                        <option value="" disabled selected hidden>請選擇您的總出席人數</option>
+                        <option value="A">1位</option>
+                        <option value="B">2位</option>
+                        <option value="C">3位</option>
+                        <option value="D">4位</option>
+                    </select>
                 </div>
 
                 <button type="submit" class="btn-submit">送出回函 Submit</button>
@@ -1078,153 +545,126 @@
         </div>
     </section>
 
-    <!-- 頁尾 -->
-    <footer>
-        Michelle & Hendrick © 2026. <span class="font-en">Love matters.</span>
+    <footer class="footer-banner" id="thanks">
+        <div class="footer-logo">M & H</div>
     </footer>
 
-    <!-- ==========================================================================
-       15. 前端 JavaScript 交互與 Canvas 邏輯
-       ========================================================================== -->
     <script>
-        // 控制隱藏式 Iframe 提交狀態
+        // 設定表單提交追蹤
         let submitted = false;
 
-        function handleFormSubmitted() {
-            // 顯示成功遮罩層
-            const overlay = document.getElementById('successOverlay');
-            overlay.classList.add('is-active');
-            
-            // 重設表單與狀態
-            document.querySelector('form').reset();
-            toggleSmartFields(false);
-            submitted = false;
-        }
-
-        // 8. 智能表單展開/收合邏輯 (Attending 才會滑出飲食需求)
-        function toggleSmartFields(show) {
-            const smartFields = document.getElementById('smartFields');
-            const guestsSelect = document.getElementById('guestsSelect');
-            const dietSelect = document.getElementById('dietSelect');
-            
-            if (show) {
-                smartFields.classList.add('is-visible');
-                guestsSelect.setAttribute('required', 'required');
-                dietSelect.setAttribute('required', 'required');
-            } else {
-                smartFields.classList.remove('is-visible');
-                guestsSelect.removeAttribute('required');
-                dietSelect.removeAttribute('required');
-            }
-        }
-
-        // 7. 交通指引：經典手風琴 (Accordion) 邏輯
-        function toggleAccordion(button) {
-            const content = button.nextElementSibling;
-            const icon = button.querySelector('.accordion-icon');
-            
-            // 關閉其餘面板
-            document.querySelectorAll('.accordion-content').forEach(item => {
-                if (item !== content) {
-                    item.style.maxHeight = null;
-                    item.previousElementSibling.querySelector('.accordion-icon').innerText = '+';
-                }
-            });
-
-            // 開關當前面板
-            if (content.style.maxHeight) {
-                content.style.maxHeight = null;
-                icon.innerText = '+';
-            } else {
-                content.style.maxHeight = content.scrollHeight + "px";
-                icon.innerText = '−';
-            }
-        }
-
-        // 2. 倒數計時器邏輯（2026年11月28日 下午 4:30 證婚開始）
-        const targetTime = new Date('November 28, 2026 16:30:00').getTime();
-
-        function updateCountdown() {
-            const now = new Date().getTime();
-            const distance = targetTime - now;
-
-            if (distance < 0) {
-                document.getElementById('days').innerText = "00";
-                document.getElementById('hours').innerText = "00";
-                document.getElementById('minutes').innerText = "00";
-                document.getElementById('seconds').innerText = "00";
-                return;
-            }
-
-            const d = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const s = Math.floor((distance % (1000 * 60)) / 1000);
-
-            document.getElementById('days').innerText = String(d).padStart(2, '0');
-            document.getElementById('hours').innerText = String(h).padStart(2, '0');
-            document.getElementById('minutes').innerText = String(m).padStart(2, '0');
-            document.getElementById('seconds').innerText = String(s).padStart(2, '0');
-        }
-
-        setInterval(updateCountdown, 1000);
-        updateCountdown();
-
-        // ==========================================================================
-        // Canvas 高級動態暖金色星塵粒子背景 (Golden Shimmer Dust)
-        // ==========================================================================
-        const canvas = document.getElementById('particleCanvas');
+        // --- Canvas 浪漫暖色粒子特效 ---
+        const canvas = document.getElementById('canvas-bg');
         const ctx = canvas.getContext('2d');
+        let particles = [];
 
         function resizeCanvas() {
-            canvas.width = canvas.parentElement.offsetWidth;
-            canvas.height = canvas.parentElement.offsetHeight;
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
         }
         window.addEventListener('resize', resizeCanvas);
         resizeCanvas();
 
-        const particleList = [];
-        const maxParticles = 60;
-
-        for (let i = 0; i < maxParticles; i++) {
-            particleList.push({
-                x: Math.random() * window.innerWidth,
-                y: Math.random() * window.innerHeight,
-                radius: Math.random() * 2 + 0.6,
-                speedX: (Math.random() - 0.5) * 0.3,
-                speedY: -Math.random() * 0.6 - 0.2, // 微弱向上漂浮
-                opacity: Math.random() * 0.5 + 0.1,
-                fadeSpeed: Math.random() * 0.005 + 0.002
-            });
-        }
-
-        function animateParticles() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            
-            particleList.forEach(p => {
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2.5 + 0.5;
+                this.speedX = Math.random() * 0.2 - 0.1;
+                this.speedY = Math.random() * 0.3 + 0.1; // 緩緩向下飄落
+                this.alpha = Math.random() * 0.5 + 0.2;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.y > canvas.height) {
+                    this.y = 0;
+                    this.x = Math.random() * canvas.width;
+                }
+            }
+            draw() {
+                ctx.save();
+                ctx.globalAlpha = this.alpha;
                 ctx.beginPath();
-                ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-                
-                // Morandi 暖陽色與柔光金色柔和混合
-                ctx.fillStyle = `rgba(212, 163, 115, ${p.opacity})`;
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = '#d4a373'; // 使用 Morandi 暖陽主色調
                 ctx.fill();
+                ctx.restore();
+            }
+        }
 
-                p.x += p.speedX;
-                p.y += p.speedY;
+        function initParticles() {
+            particles = [];
+            const count = Math.min(Math.floor(canvas.width / 15), 60);
+            for (let i = 0; i < count; i++) {
+                particles.push(new Particle());
+            }
+        }
+        initParticles();
 
-                // 超出邊界重新定位在底部
-                if (p.y < 0) {
-                    p.y = canvas.height;
-                    p.x = Math.random() * canvas.width;
-                }
-                if (p.x < 0 || p.x > canvas.width) {
-                    p.x = Math.random() * canvas.width;
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+
+        // --- 2. 倒數計時核心邏輯 ---
+        // 精準設置目標時間為 2026 年 11 月 28 日 下午 4 時 30 分
+        const targetDate = new Date('November 28, 2026 16:30:00').getTime();
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const difference = targetDate - now;
+
+            if (difference <= 0) {
+                document.getElementById('days').innerText = '00';
+                document.getElementById('hours').innerText = '00';
+                document.getElementById('minutes').innerText = '00';
+                document.getElementById('seconds').innerText = '00';
+                return;
+            }
+
+            const d = Math.floor(difference / (1000 * 60 * 60 * 24));
+            const h = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const m = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+            const s = Math.floor((difference % (1000 * 60)) / 1000);
+
+            document.getElementById('days').innerText = d < 10 ? '0' + d : d;
+            document.getElementById('hours').innerText = h < 10 ? '0' + h : h;
+            document.getElementById('minutes').innerText = m < 10 ? '0' + m : m;
+            document.getElementById('seconds').innerText = s < 10 ? '0' + s : s;
+        }
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+
+
+        // --- 7. 摺疊式面板 Accordion 互動邏輯 ---
+        const accordions = document.querySelectorAll('.accordion-header');
+        accordions.forEach(header => {
+            header.addEventListener('click', function() {
+                const item = this.parentElement;
+                const content = this.nextElementSibling;
+                
+                if (item.classList.contains('active')) {
+                    content.style.maxHeight = null;
+                    item.classList.remove('active');
+                } else {
+                    // 關閉其他開啟的面板
+                    document.querySelectorAll('.accordion-item').forEach(el => {
+                        el.classList.remove('active');
+                        el.querySelector('.accordion-content').style.maxHeight = null;
+                    });
+                    
+                    content.style.maxHeight = content.scrollHeight + "px";
+                    item.classList.add('active');
                 }
             });
-
-            requestAnimationFrame(animateParticles);
-        }
-        animateParticles();
+        });
     </script>
 </body>
 </html>
