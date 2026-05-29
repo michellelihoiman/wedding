@@ -71,6 +71,7 @@
             justify-content: center;
             align-items: center;
             padding: 12px 0;
+            scroll-behavior: smooth;
         }
         .navbar a {
             color: var(--text-dark);
@@ -880,9 +881,9 @@
                     </select>
                 </div>
 
-                <!-- 出席意願 -->
+                <!-- 出席意願 (已修正字體) -->
                 <div class="form-group">
-                    <label class="form-label">能否出席伯尼教證儀式<span class="en-label">Attendance</span></label>
+                    <label class="form-label">能否出席薄扶林伯大尼教堂證婚儀式<span class="en-label">Attendance</span></label>
                     <select name="entry.1976289255" class="form-control" required>
                         <option value="" disabled selected hidden></option>
                         <option value="會">會出席 / Will Attend</option>
@@ -1020,9 +1021,10 @@
         function resizeCanvas() {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
+            initParticles(); // 修正：縮放視窗時重新初始化粒子避免斷層
         }
         window.addEventListener('resize', resizeCanvas);
-        resizeCanvas();
+        
 
         class Particle {
             constructor() {
@@ -1059,7 +1061,9 @@
                 particles.push(new Particle());
             }
         }
-        initParticles();
+        
+        // 初始化畫布與粒子
+        resizeCanvas();
 
         function animate() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
