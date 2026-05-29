@@ -541,6 +541,21 @@
             text-align: left;
             margin-bottom: 25px;
         }
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid rgba(141, 163, 153, 0.4);
+            border-radius: 8px;
+            background: rgba(255,255,255,0.9);
+            font-family: 'Noto Serif TC', serif;
+            font-size: 0.95rem;
+            color: var(--text-dark);
+            transition: border-color 0.3s;
+        }
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
         .form-label {
             display: block;
             margin-bottom: 8px;
@@ -558,21 +573,6 @@
             text-transform: uppercase;
             letter-spacing: 1px;
             margin-top: 1px;
-        }
-        .form-control {
-            width: 100%;
-            padding: 12px 15px;
-            border: 1px solid rgba(141, 163, 153, 0.4);
-            border-radius: 8px;
-            background: rgba(255,255,255,0.9);
-            font-family: 'Noto Serif TC', serif;
-            font-size: 0.95rem;
-            color: var(--text-dark);
-            transition: border-color 0.3s;
-        }
-        .form-control:focus {
-            outline: none;
-            border-color: var(--primary);
         }
         select.form-control {
             appearance: none;
@@ -831,7 +831,7 @@
                     <summary class="transport-summary">🗺️ 查看交通指引 / View Route</summary>
                     <div class="transport-content">
                         <div class="transport-line">
-                            ① <strong>大會接駁車 / Shuttle Bus：</strong>大會將提供由港鐵金鐘站出發前往酒店的專屬接駁巴士（6:30pm)，歡迎於下方登記。
+                            ① <strong>大會接駁車 / Shuttle Bus：</strong>大會將提供由港鐵金鐘站出發前往酒店的專屬接駁巴士 (6:30pm)，歡迎於下方登記。
                             <span class="en-route">Complimentary shuttle service to/from MTR Admiralty Station will be provided. Please register in the RSVP section below.</span>
                         </div>
                         <div class="transport-line">
@@ -854,7 +854,6 @@
 
             <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(submitted) {window.location='#thanks'; alert(language === 'en' ? 'Thank you for your response! See you at our wedding.' : '謝謝您的回覆！我們婚禮見。');}"></iframe>
             
-            <!-- 已根據您的全新預填網址更新 Action -->
             <form action="https://docs.google.com/forms/d/e/1FAIpQLSd6jlYYE3XGlN53iMmjB1T2kOeO6wzTI_Gpc56e_eDPRcZCkQ/formResponse" method="post" target="hidden_iframe" onsubmit="submitted=true;">
                 
                 <!-- 姓名 -->
@@ -881,13 +880,23 @@
                     </select>
                 </div>
 
-                <!-- 出席意願 (已修正字體) -->
+                <!-- 出席意願 -->
                 <div class="form-group">
                     <label class="form-label">能否出席薄扶林伯大尼教堂證婚儀式<span class="en-label">Attendance</span></label>
                     <select name="entry.1976289255" class="form-control" required>
                         <option value="" disabled selected hidden></option>
                         <option value="會">會出席 / Will Attend</option>
                         <option value="未能出席">未能出席 / Sincerely Decline</option>
+                    </select>
+                </div>
+
+                <!-- 🚌 交通需求 (已移至此處) -->
+                <div class="form-group">
+                    <label class="form-label">需要接駁巴士前往伯大尼教堂？<span class="en-label">Shuttle Bus Service</span></label>
+                    <select name="entry.1169012195" class="form-control" required>
+                        <option value="" disabled selected hidden></option>
+                        <option value="自行安排">自行安排 / Arrange by Self</option>
+                        <option value="需要大會接駁車">需要大會接駁車 / Need Shuttle Bus</option>
                     </select>
                 </div>
 
@@ -908,7 +917,7 @@
                     <select name="entry.1563507514" class="form-control" required>
                         <option value="" disabled selected hidden></option>
                         <option value="A. Foie Gras Terrine with Port Wine Jelly & Balsamic Pearl 鵝肝凍批配波特酒凍佐黑醋珠">鵝肝凍批配波特酒凍佐黑醋珠 / Foie Gras Terrine with Port Wine Jelly & Balsamic Pearl</option>
-                        <option value="B. Other Appetizer">Alaska King Crab and Zucchini Roulade with Lemon Gelée and Salmon Roe阿拉斯加帝王蟹配西葫蘆捲伴檸檬凍及三文魚子</option>
+                        <option value="B. Alaska King Crab and Zucchini Roulade with Lemon Gelée and Salmon Roe 阿拉斯加帝王蟹配西葫蘆捲伴檸檬凍及三文魚子">阿拉斯加帝王蟹配西葫蘆捲伴檸檬凍及三文魚子 / Alaska King Crab and Zucchini Roulade with Lemon Gelée and Salmon Roe</option>
                     </select>
                 </div>
 
@@ -918,17 +927,7 @@
                     <select name="entry.211444492" class="form-control" required>
                         <option value="" disabled selected hidden></option>
                         <option value="A. Grilled Wagyu Beef Striploin with Caramelized Onion, Potato Ball & Red Pepper Coulis 烤和牛西冷配焦糖洋蔥伴薯仔球及紅椒醬">烤和牛西冷配焦糖洋蔥伴薯仔球及紅椒醬 / Grilled Wagyu Beef Striploin with Caramelized Onion, Potato Ball & Red Pepper Coulis</option>
-                        <option value="B. Other Main Course">Pan-roasted Chile Seabass with “Fennel Risotto”in Red Wine Sauce 烤智利鱸魚配「茴香燴飯」伴紅酒汁</option>
-                    </select>
-                </div>
-
-                <!-- 交通需求 -->
-                <div class="form-group">
-                    <label class="form-label">需要接駁巴士前往伯大尼教堂？<span class="en-label">Shuttle Bus Service</span></label>
-                    <select name="entry.1169012195" class="form-control" required>
-                        <option value="" disabled selected hidden></option>
-                        <option value="自行安排">自行安排 / Arrange by Self</option>
-                        <option value="需要大會接駁車">需要大會接駁車 / Need Shuttle Bus</option>
+                        <option value="B. Pan-roasted Chile Seabass with “Fennel Risotto”in Red Wine Sauce 烤智利鱸魚配「茴香燴飯」伴紅酒汁">烤智利鱸魚配「茴香燴飯」伴紅酒汁 / Pan-roasted Chile Seabass with “Fennel Risotto” in Red Wine Sauce</option>
                     </select>
                 </div>
 
@@ -1021,7 +1020,7 @@
         function resizeCanvas() {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
-            initParticles(); // 修正：縮放視窗時重新初始化粒子避免斷層
+            initParticles();
         }
         window.addEventListener('resize', resizeCanvas);
         
@@ -1062,7 +1061,6 @@
             }
         }
         
-        // 初始化畫布與粒子
         resizeCanvas();
 
         function animate() {
