@@ -271,7 +271,7 @@
             letter-spacing: 1px;
         }
 
-        /* 📸 Photo Gallery 橫軸線排版優化與尺寸微調（縮小 1/3） */
+        /* 📸 Photo Gallery 橫軸線排版 */
         .gallery-divider {
             width: 60px;
             height: 1px;
@@ -294,29 +294,24 @@
             margin-bottom: 25px;
         }
         
-        /* 橫向排列滑動容器 */
         .gallery-scroll-container {
             width: 100%;
             overflow-x: auto;
             display: flex;
-            justify-content: center; /* 預設在桌面版居中 */
+            justify-content: center; 
             gap: 15px;
             padding: 10px 5px 20px 5px;
             scroll-behavior: smooth;
-            /* 隱藏滾動條 (IE/Edge) */
             -ms-overflow-style: none;  
-            /* 隱藏滾動條 (Firefox) */
             scrollbar-width: none; 
         }
-        /* 隱藏滾動條 (Chrome/Safari) */
         .gallery-scroll-container::-webkit-scrollbar {
             display: none;
         }
 
-        /* 相片卡片外觀（寬度調小 1/3，原先 1fr 改為固定寬度並縮小比例） */
         .gallery-item {
             flex: 0 0 auto;
-            width: 150px; /* 精緻縮小的 1/3 規格寬度 */
+            width: 150px; 
             aspect-ratio: 3 / 4; 
             position: relative;
             border-radius: 8px;
@@ -341,14 +336,14 @@
             transform: scale(1.05);
         }
 
-        /* 相片放大光箱效果 (Lightbox Popup) */
+        /* 相片放大光箱效果 */
         .lightbox {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.9);
+            background: rgba(0, 0, 0, 0.92);
             z-index: 2000;
             display: flex;
             justify-content: center;
@@ -357,13 +352,22 @@
             pointer-events: none;
             transition: opacity 0.4s ease;
             padding: 20px;
+            user-select: none;
         }
         .lightbox.active {
             opacity: 1;
             pointer-events: auto;
         }
-        .lightbox-img {
+        .lightbox-wrapper {
+            position: relative;
             max-width: 95%;
+            max-height: 85vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .lightbox-img {
+            max-width: 100%;
             max-height: 85vh;
             object-fit: contain;
             border-radius: 4px;
@@ -376,18 +380,40 @@
         }
         .lightbox-close {
             position: absolute;
-            top: 20px;
-            right: 25px;
+            top: -45px;
+            right: 0;
             color: rgba(255,255,255,0.7);
             font-size: 2.5rem;
             font-weight: 300;
             cursor: pointer;
-            user-select: none;
             transition: color 0.3s;
         }
         .lightbox-close:hover {
             color: #fff;
         }
+        .lightbox-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: none;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s, color 0.3s;
+            z-index: 2100;
+        }
+        .lightbox-btn:hover {
+            background: rgba(255, 255, 255, 0.25);
+        }
+        .lightbox-prev { left: -60px; }
+        .lightbox-next { right: -60px; }
 
         /* 婚禮詳情排版 */
         .event-block {
@@ -498,6 +524,17 @@
             margin-top: 2px;
         }
 
+        /* 🍽️ 晚宴 Menu PDF 圖片展現摺疊樣式 */
+        .menu-pdf-img {
+            width: 100%;
+            max-width: 480px;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            margin: 10px auto;
+            display: block;
+        }
+
         /* 表單元件 */
         .form-group {
             text-align: left;
@@ -577,8 +614,8 @@
 
         /* 尾頁封底 */
         .footer-banner {
-            height: 100vh;
-            background: url('https://i.postimg.cc/SQZCPyXW/81b4e31b-7052-4235-a31f-55988f841451.jpg') center/cover no-repeat;
+            height: 60vh;
+            background: url('https://i.postimg.cc/LhKZFn2D/Blue-White-Simple-Invitation.png') center/cover no-repeat;
             position: relative;
             display: flex;
             justify-content: center;
@@ -617,9 +654,12 @@
             .time-card { min-width: 110px; padding: 10px 15px; }
             .time-num { font-size: 2rem; padding-right: 10px; }
             .time-label { padding-left: 10px; }
-            /* 手機版允許向右滑動瀏覽縮小後的相片 */
             .gallery-scroll-container { justify-content: flex-start; padding-left: 10px; padding-right: 10px; }
-            .gallery-item { width: 130px; } /* 手機版微調寬度，讓畫面更好滑動 */
+            .gallery-item { width: 130px; } 
+            .lightbox-btn { width: 38px; height: 38px; font-size: 1.2rem; }
+            .lightbox-prev { left: 5px; background: rgba(0,0,0,0.4); }
+            .lightbox-next { right: 5px; background: rgba(0,0,0,0.4); }
+            .lightbox-close { top: -40px; right: 10px; }
             .event-place { font-size: 1rem; }
             .transport-content { font-size: 0.85rem; padding: 15px 15px; }
         }
@@ -703,32 +743,35 @@
             <!-- 分割美學線 -->
             <div class="gallery-divider"></div>
 
-            <!-- 📸 Photo Gallery 區塊 (已修訂為精緻縮小版、向橫軸並排) -->
+            <!-- 📸 Photo Gallery 區塊 -->
             <div class="gallery-title">Photo Gallery</div>
             <div class="gallery-subtitle">我們的喜悅紀錄 / Our Memories</div>
             
-            <!-- 橫向滑動排線佈局 -->
             <div class="gallery-scroll-container">
                 <!-- 相片一 -->
-                <div class="gallery-item" onclick="openLightbox(this)">
+                <div class="gallery-item" onclick="openLightbox(0)">
                     <img src="https://i.postimg.cc/GpT78xL9/Pri-Vision-Michelle-Hendrick-68.jpg" alt="Michelle & Hendrick Wedding Photo 1" loading="lazy">
                 </div>
                 <!-- 相片二 -->
-                <div class="gallery-item" onclick="openLightbox(this)">
+                <div class="gallery-item" onclick="openLightbox(1)">
                     <img src="https://i.postimg.cc/R0Yk20Fd/Blue-White-Simple-Invitation.png" alt="Michelle & Hendrick Wedding Photo 2" loading="lazy">
                 </div>
-                <!-- ✨ 新增相片三 -->
-                <div class="gallery-item" onclick="openLightbox(this)">
+                <!-- 相片三 -->
+                <div class="gallery-item" onclick="openLightbox(2)">
                     <img src="https://i.postimg.cc/QM53Wx7d/4aa39158-6867-4b05-8013-c92833d7a90e.jpg" alt="Michelle & Hendrick Wedding Photo 3" loading="lazy">
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- 相片點擊全螢幕放大光箱 (Lightbox Pop-up) 元件 -->
-    <div id="lightbox" class="lightbox" onclick="closeLightbox()">
-        <span class="lightbox-close" onclick="closeLightbox()">&times;</span>
-        <img class="lightbox-img" id="lightbox-img" src="" alt="Enlarged Wedding Photo">
+    <!-- 智慧放大光箱 (Lightbox Pop-up) -->
+    <div id="lightbox" class="lightbox" onclick="handleLightboxClick(event)">
+        <div class="lightbox-wrapper">
+            <span class="lightbox-close" onclick="closeLightbox()">&times;</span>
+            <button class="lightbox-btn lightbox-prev" onclick="changeImage(-1)">‹</button>
+            <img class="lightbox-img" id="lightbox-img" src="" alt="Enlarged Wedding Photo">
+            <button class="lightbox-btn lightbox-next" onclick="changeImage(1)">›</button>
+        </div>
     </div>
 
     <!-- 婚禮詳情與隱藏摺疊交通配置 -->
@@ -748,7 +791,7 @@
             <!-- 證婚地點 -->
             <div class="event-block">
                 <div class="event-time">4:30pm</div>
-                <div class="event-title">證婚典禮儀式<span class="en-etitle">Wedding Ceremony</span></div>
+                <div class="event-title">證婚典禮儀式<span class="en-etitle">Marriage Ceremony</span></div>
                 <div class="event-place">
                     <span class="no-wrap">薄扶林伯大尼教堂</span><br>
                     <span style="font-size: 0.95rem; color: #666;" class="en">Bethanie Chapel, Pok Fu Lam</span>
@@ -775,9 +818,9 @@
 
             <!-- 晚宴地點 -->
             <div class="event-block">
-                <div class="event-time">6:30pm <span style="font-size:1.1rem; font-weight:400; color:var(--text-dark);">恭候 Reception</span></div>
-                <div class="event-time" style="margin-top: 5px;">7:30pm <span style="font-size:1.1rem; font-weight:400; color:var(--text-dark);">入席 Banquet</span></div>
-                <div class="event-title" style="margin-top: 15px;">婚宴<span class="en-etitle">Wedding Banquet</span></div>
+                <div class="event-time">7:00pm <span style="font-size:1.1rem; font-weight:400; color:var(--text-dark);">入席 Reception</span></div>
+                <div class="event-time" style="margin-top: 5px;">7:30pm <span style="font-size:1.1rem; font-weight:400; color:var(--text-dark);">晚宴 Banquet</span></div>
+                <div class="event-title" style="margin-top: 15px;">婚宴盛典<span class="en-etitle">Wedding Banquet</span></div>
                 <div class="event-place">
                     <span class="no-wrap">香港數碼港艾美酒店</span><br>
                     <span style="font-size: 0.95rem; color: #666;" class="en">Le Meridien Hotel, Cyberport</span>
@@ -810,6 +853,7 @@
 
             <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(submitted) {window.location='#thanks'; alert(language === 'en' ? 'Thank you for your response! See you at our wedding.' : '謝謝您的回覆！我們婚禮見。');}"></iframe>
             
+            <!-- 已根據您的全新預填網址更新 Action -->
             <form action="https://docs.google.com/forms/d/e/1FAIpQLSd6jlYYE3XGlN53iMmjB1T2kOeO6wzTI_Gpc56e_eDPRcZCkQ/formResponse" method="post" target="hidden_iframe" onsubmit="submitted=true;">
                 
                 <!-- 姓名 -->
@@ -829,16 +873,16 @@
                     <label class="form-label">您是哪一方的親友<span class="en-label">Relationship</span></label>
                     <select name="entry.163538105" class="form-control" required>
                         <option value="" disabled selected hidden></option>
-                        <option value="Michelle女家親戚">Michelle 女家親戚 / Michelle's Relative</option>
-                        <option value="Michelle女家朋友">Michelle 女家朋友 / Michelle's Friend</option>
-                        <option value="Hendrick男家親戚">Hendrick 男家親戚 / Hendrick's Relative</option>
-                        <option value="Hendrick男家朋友">Hendrick 男家朋友 / Hendrick's Friend</option>
+                        <option value="Hendrick's fds & colleagues">Hendrick 的朋友及同事 / Hendrick's Friends & Colleagues</option>
+                        <option value="Michelle's fds & colleagues">Michelle 的朋友及同事 / Michelle's Friends & Colleagues</option>
+                        <option value="Hendrick's relatives">Hendrick 的親戚 / Hendrick's Relatives</option>
+                        <option value="Michelle's relatives">Michelle 的親戚 / Michelle's Relatives</option>
                     </select>
                 </div>
 
                 <!-- 出席意願 -->
                 <div class="form-group">
-                    <label class="form-label">會否出席證婚儀式<span class="en-label">Attendance</span></label>
+                    <label class="form-label">能否出席<span class="en-label">Attendance</span></label>
                     <select name="entry.1976289255" class="form-control" required>
                         <option value="" disabled selected hidden></option>
                         <option value="會">會出席 / Will Attend</option>
@@ -846,14 +890,34 @@
                     </select>
                 </div>
 
-                <!-- 餐點選擇 -->
+                <!-- 🍽️ 晚宴 Menu 摺疊面板區塊 -->
+                <div class="form-group" style="margin-bottom: 30px;">
+                    <label class="form-label">晚宴 Menu<span class="en-label">Wedding Menu</span></label>
+                    <details class="transport-details">
+                        <summary class="transport-summary" style="background: rgba(141, 163, 153, 0.08); border-color: rgba(141, 163, 153, 0.2); color: var(--secondary);">📖 展開查看晚宴菜單 / View Menu</summary>
+                        <div class="transport-content" style="background: rgba(255,255,255,0.7); text-align: center;">
+                            <img src="https://i.postimg.cc/MGVR2DJx/White-Minimalistic-Floral-Wedding-Menu.jpg" class="menu-pdf-img" alt="Wedding Dinner Menu PDF">
+                        </div>
+                    </details>
+                </div>
+
+                <!-- 🥗 頭盤選擇 -->
                 <div class="form-group">
-                    <label class="form-label">餐點選擇<span class="en-label">Meal Choice</span></label>
-                    <select name="entry.MEAL_SELECT_ID_HERE" class="form-control" required>
+                    <label class="form-label">頭盤選擇<span class="en-label">Appetizer Choice</span></label>
+                    <select name="entry.1563507514" class="form-control" required>
                         <option value="" disabled selected hidden></option>
-                        <option value="中式套餐A">中式套餐 A / Chinese Set A</option>
-                        <option value="中式套餐B">中式套餐 B / Chinese Set B</option>
-                        <option value="精選素食餐">精選素食餐 / Vegetarian Menu</option>
+                        <option value="A. Foie Gras Terrine with Port Wine Jelly & Balsamic Pearl 鵝肝凍批配波特酒凍佐黑醋珠">鵝肝凍批配波特酒凍佐黑醋珠 / Foie Gras Terrine with Port Wine Jelly & Balsamic Pearl</option>
+                        <option value="B. Other Appetizer">其他頭盤選項 / Other Option (If applicable)</option>
+                    </select>
+                </div>
+
+                <!-- 🥩 主菜選擇 -->
+                <div class="form-group">
+                    <label class="form-label">主菜選擇<span class="en-label">Main Course Choice</span></label>
+                    <select name="entry.211444492" class="form-control" required>
+                        <option value="" disabled selected hidden></option>
+                        <option value="A. Grilled Wagyu Beef Striploin with Caramelized Onion, Potato Ball & Red Pepper Coulis 烤和牛西冷配焦糖洋蔥伴薯仔球及紅椒醬">烤和牛西冷配焦糖洋蔥伴薯仔球及紅椒醬 / Grilled Wagyu Beef Striploin with Caramelized Onion, Potato Ball & Red Pepper Coulis</option>
+                        <option value="B. Other Main Course">其他主菜選項 / Other Option (If applicable)</option>
                     </select>
                 </div>
 
@@ -862,8 +926,8 @@
                     <label class="form-label">接駁巴士需求<span class="en-label">Shuttle Bus Service</span></label>
                     <select name="entry.1169012195" class="form-control" required>
                         <option value="" disabled selected hidden></option>
-                        <option value="shuttle bus at 金鐘MTR站">需要（於金鐘站乘搭）/ Yes (From Admiralty MTR)</option>
-                        <option value="不需要">不需要 / No, Thank You</option>
+                        <option value="自行安排">自行安排 / Arrange by Self</option>
+                        <option value="需要大會接駁車">需要大會接駁車 / Need Shuttle Bus</option>
                     </select>
                 </div>
 
@@ -884,17 +948,71 @@
         let submitted = false;
         const language = navigator.language || navigator.userLanguage;
 
-        // --- Lightbox 畫廊相片點擊放大核心邏輯 ---
-        function openLightbox(element) {
-            const imgSrc = element.querySelector('img').src;
-            document.getElementById('lightbox-img').src = imgSrc;
+        // --- 畫廊相片陣列配置 ---
+        const galleryImages = [
+            "https://i.postimg.cc/GpT78xL9/Pri-Vision-Michelle-Hendrick-68.jpg",
+            "https://i.postimg.cc/R0Yk20Fd/Blue-White-Simple-Invitation.png",
+            "https://i.postimg.cc/QM53Wx7d/4aa39158-6867-4b05-8013-c92833d7a90e.jpg"
+        ];
+        let currentImgIndex = 0;
+
+        // --- Lightbox 多功能滑動切換邏輯 ---
+        function openLightbox(index) {
+            currentImgIndex = index;
+            document.getElementById('lightbox-img').src = galleryImages[currentImgIndex];
             document.getElementById('lightbox').classList.add('active');
+            window.addEventListener('keydown', handleKeyDown);
         }
+        
         function closeLightbox() {
             document.getElementById('lightbox').classList.remove('active');
+            window.removeEventListener('keydown', handleKeyDown);
         }
 
-        // --- Canvas 浪漫暖色粒子特效 ---
+        function changeImage(direction) {
+            currentImgIndex += direction;
+            if (currentImgIndex >= galleryImages.length) currentImgIndex = 0;
+            if (currentImgIndex < 0) currentImgIndex = galleryImages.length - 1;
+            document.getElementById('lightbox-img').src = galleryImages[currentImgIndex];
+        }
+
+        function handleLightboxClick(event) {
+            if (event.target.id === 'lightbox' || event.target.classList.contains('lightbox-wrapper')) {
+                closeLightbox();
+            }
+        }
+
+        function handleKeyDown(e) {
+            if (e.key === 'ArrowRight') changeImage(1);
+            if (e.key === 'ArrowLeft') changeImage(-1);
+            if (e.key === 'Escape') closeLightbox();
+        }
+
+        // 手機端左右滑動 (Swipe) 特效
+        let touchStartX = 0;
+        let touchEndX = 0;
+        const lightboxEl = document.getElementById('lightbox');
+
+        lightboxEl.addEventListener('touchstart', e => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, {passive: true});
+
+        lightboxEl.addEventListener('touchend', e => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        }, {passive: true});
+
+        function handleSwipe() {
+            const threshold = 50; 
+            if (touchStartX - touchEndX > threshold) {
+                changeImage(1); 
+            }
+            if (touchEndX - touchStartX > threshold) {
+                changeImage(-1); 
+            }
+        }
+
+        // --- Canvas 浪漫粒子特效 ---
         const canvas = document.getElementById('canvas-bg');
         const ctx = canvas.getContext('2d');
         let particles = [];
